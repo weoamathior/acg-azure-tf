@@ -30,3 +30,26 @@ variable "application_port" {
   type        = number
   default     = 8080
 }
+
+variable "vm_size" {
+  description = "Size of virtual machine to create. Defaults to Standard_F2."
+  type        = string
+  default     = "Standard_F2"
+}
+
+variable "vmss_count" {
+  description = "Starting number of VMSS instances to create. Defaults to 2."
+  type        = number
+  default     = 2
+
+  validation {
+    condition     = var.vmss_count >= 1
+    error_message = "Count must be 1 or greater. Submitted value was ${var.vmss_count}."
+  }
+}
+
+variable "admin_username" {
+  description = "Admin username for virtual machine. Defaults to azureuser."
+  type        = string
+  default     = "azureuser"
+}

@@ -53,6 +53,7 @@ module "linux" {
     storage_account_type = "Standard_LRS"
   }
   os_simple = "UbuntuServer"
+  # size      = "Standard_D2"
   size      = "Standard_F2"
   subnet_id = azurerm_subnet.subnet1.id
 
@@ -80,6 +81,20 @@ resource "azurerm_network_security_rule" "http" {
   source_port_range           = "*"
   source_address_prefix       = "*"
   destination_port_range      = "80"
+  destination_address_prefix  = "*"
+}
+
+resource "azurerm_network_security_rule" "ssh" {
+  network_security_group_name = azurerm_network_security_group.app_vm.name
+  resource_group_name         = azurerm_network_security_group.app_vm.resource_group_name
+  name                        = "ssh"
+  priority                    = 101
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  source_address_prefix       = "*"
+  destination_port_range      = "22"
   destination_address_prefix  = "*"
 }
 
